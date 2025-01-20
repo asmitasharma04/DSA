@@ -1,15 +1,14 @@
+package recursion;
 public class fibonacci {
     public static void main(String[] args) {
-        int a=0;
-        int b=1;
-        int c;
-        System.out.print(a+" "+b+" ");
-        for(int i=2;i<10;i++){
-             c=a+b;
-            System.out.print(c+" ");
-        
-        a=b;
-        b=c;
+        System.out.println(fibonacci(7));
+    }
+    public static int fibonacci(int n){
+        //base condition
+        if(n<2){
+            return n;
+        }
+            return fibonacci(n-1)+fibonacci(n-2);
         }
     }
-}
+
