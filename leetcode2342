@@ -1,0 +1,43 @@
+import java.util.*;
+
+class Solution {
+    private int sumOfDigits(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    public int maximumSum(int[] nums) {
+        Map<Integer, List<Integer>> digitSumMap = new HashMap<>();
+
+        for (int num : nums) {
+            int digitSum = sumOfDigits(num);
+            digitSumMap.putIfAbsent(digitSum, new ArrayList<>());
+            digitSumMap.get(digitSum).add(num);
+        }
+
+        int maxValue = -1;
+
+        for (int digitSum : digitSumMap.keySet()) {
+            List<Integer> list = digitSumMap.get(digitSum);
+            if (list.size() > 1) {
+                Collections.sort(list, Collections.reverseOrder());
+                maxValue = Math.max(maxValue, list.get(0) + list.get(1));
+            }
+        }
+
+        return maxValue;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] nums1 = {18, 43, 36, 13, 7};
+        int[] nums2 = {10, 12, 19, 14};
+
+        System.out.println(sol.maximumSum(nums1)); // Output: 54
+        System.out.println(sol.maximumSum(nums2)); // Output: -1
+    }
+}
