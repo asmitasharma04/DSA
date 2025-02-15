@@ -1,0 +1,42 @@
+public class Solution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        
+        int n1 = 10;
+        System.out.println(sol.punishmentNumber(n1)); // Output: 182
+
+        int n2 = 37;
+        System.out.println(sol.punishmentNumber(n2)); // Output: 1478
+    }
+
+    public int punishmentNumber(int n) {
+        int totalSum = 0;
+        for (int i = 1; i <= n; i++) {
+            String squareStr = Integer.toString(i * i);
+            if (isValidPartition(squareStr, i)) {
+                totalSum += i * i;
+            }
+        }
+        return totalSum;
+    }
+
+    private boolean isValidPartition(String squareStr, int originalNum) {
+        return partitionHelper(squareStr, originalNum);
+    }
+
+    private boolean partitionHelper(String s, int target) {
+        if (s.isEmpty()) {
+            return target == 0;
+        }
+        for (int i = 1; i <= s.length(); i++) {
+            int current = Integer.parseInt(s.substring(0, i));
+            if (current > target) {
+                break;
+            }
+            if (partitionHelper(s.substring(i), target - current)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
