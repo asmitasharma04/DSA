@@ -1,0 +1,24 @@
+public class MissingBinaryString {
+
+    public static String findMissingBinaryString(String[] nums) {
+        int n = nums.length;
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = 0; i < n; i++) {
+            // Flip the i-th bit of the i-th string
+            result.append(nums[i].charAt(i) == '0' ? '1' : '0');
+        }
+        
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String[] nums1 = {"01", "10"};
+        String[] nums2 = {"00", "01"};
+        String[] nums3 = {"111", "011", "001"};
+        
+        System.out.println(findMissingBinaryString(nums1));  // Output: "10"
+        System.out.println(findMissingBinaryString(nums2));  // Output: "11"
+        System.out.println(findMissingBinaryString(nums3));  // Output: "100"
+    }
+}
