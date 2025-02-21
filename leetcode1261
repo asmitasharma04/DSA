@@ -1,0 +1,38 @@
+import java.util.HashSet;
+import java.util.Set;
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    
+    TreeNode(int x) {
+        val = x;
+        left = null;
+        right = null;
+    }
+}
+
+class FindElements {
+    private TreeNode root;
+    private Set<Integer> recovered;
+
+    public FindElements(TreeNode root) {
+        this.root = root;
+        this.recovered = new HashSet<>();
+        recover(root, 0);
+    }
+    
+    private void recover(TreeNode node, int val) {
+        if (node != null) {
+            node.val = val;
+            recovered.add(val);
+            recover(node.left, 2 * val + 1);
+            recover(node.right, 2 * val + 2);
+        }
+    }
+    
+    public boolean find(int target) {
+        return recovered.contains(target);
+    }
+}
