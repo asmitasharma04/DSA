@@ -1,0 +1,70 @@
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+class Solution {
+    public TreeNode recoverFromPreorder(String traversal) {
+        Stack<TreeNode> stack = new Stack<>();
+        int i = 0;
+        
+        while (i < traversal.length()) {
+            int depth = 0;
+            // Count dashes to determine the depth of the current node
+            while (i < traversal.length() && traversal.charAt(i) == '-') {
+                depth++;
+                i++;
+            }
+
+            // Extract the node value
+            int value = 0;
+            while (i < traversal.length() && Character.isDigit(traversal.charAt(i))) {
+                value = value * 10 + (traversal.charAt(i) - '0');
+                i++;
+            }
+
+            // Create a new node
+            TreeNode node = new TreeNode(value);
+
+            // Adjust stack size according to depth
+            while (stack.size() > depth) {
+                stack.pop();
+            }
+
+            // Attach the new node as a child of the last node in the stack
+            if (!stack.isEmpty()) {
+                if (stack.peek().left == null) {
+                    stack.peek().left = node;
+                } else {
+                    stack.peek().right = node;
+                }
+            }
+
+            // Push the new node onto the stack
+            stack.push(node);
+        }
+
+        return stack.get(0); // Root of the tree
+    }
+
+    // Helper function to print tree in Preorder format (for testing)
+    public void preorderPrint(TreeNode root) {
+        if (root == null) return;
+        System.out.print(root.val + " ");
+        preorderPrint(root.left);
+        preorderPrint(root.right);
+    }
+
+    // Driver Code for testing
+    public static void main(String[] args) {
+        Solution obj = new Solution();
+        String traversal = "1-2--3--4-5--6--7";
+        TreeNode root = obj.recoverFromPreorder(traversal);
+
+        // Print the recovered tree in Preorder
+        obj.preorderPrint(root);
+    }
+}
