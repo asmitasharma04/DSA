@@ -1,0 +1,39 @@
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public TreeNode constructFromPrePost(int[] preorder, int[] postorder) {
+        return buildTree(preorder, postorder, 0, 0, postorder.length - 1);
+    }
+
+    private TreeNode buildTree(int[] preorder, int[] postorder, int preStart, int postStart, int postEnd) {
+        if (preStart >= preorder.length || postStart > postEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preStart]);
+        if (preStart == preorder.length - 1 || postStart == postEnd) {
+            return root;
+        }
+        int leftSubtreeRoot = preorder[preStart + 1];
+        int leftSubtreeRootIndexInPostorder = findIndex(postorder, postStart, postEnd, leftSubtreeRoot);
+        int leftSubtreeSize = leftSubtreeRootIndexInPostorder - postStart + 1;
+
+        root.left = buildTree(preorder, postorder, preStart + 1, postStart, leftSubtreeRootIndexInPostorder);
+        root.right = buildTree(preorder, postorder, preStart + leftSubtreeSize + 1, leftSubtreeRootIndexInPostorder + 1, postEnd - 1);
+
+        return root;
+    }
+
+    private int findIndex(int[] array, int start, int end, int value) {
+        for (int i = start; i <= end; i++) {
+            if (array[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
