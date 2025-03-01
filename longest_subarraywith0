@@ -1,0 +1,34 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestSubarraySumZero {
+    public static int maxLength(int[] nums) {
+        // HashMap to store the sum up to each index
+        Map<Integer, Integer> sumMap = new HashMap<>();
+        int maxLength = 0;
+        int currentSum = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+
+            // Check if the current sum is 0
+            if (currentSum == 0) {
+                maxLength = i + 1;
+            }
+
+            // Check if the current sum has been seen before
+            if (sumMap.containsKey(currentSum)) {
+                maxLength = Math.max(maxLength, i - sumMap.get(currentSum));
+            } else {
+                sumMap.put(currentSum, i);
+            }
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, -2, 4, -4, -2, 2};
+        System.out.println("Length of the longest subarray with sum 0: " + maxLength(nums));
+    }
+}
