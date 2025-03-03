@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class PivotArray {
+    public static int[] pivotArray(int[] nums, int pivot) {
+        List<Integer> lessThanPivot = new ArrayList<>();
+        List<Integer> equalToPivot = new ArrayList<>();
+        List<Integer> greaterThanPivot = new ArrayList<>();
+
+        for (int num : nums) {
+            if (num < pivot) {
+                lessThanPivot.add(num);
+            } else if (num == pivot) {
+                equalToPivot.add(num);
+            } else {
+                greaterThanPivot.add(num);
+            }
+        }
+
+        int[] result = new int[nums.length];
+        int index = 0;
+
+        for (int num : lessThanPivot) {
+            result[index++] = num;
+        }
+        for (int num : equalToPivot) {
+            result[index++] = num;
+        }
+        for (int num : greaterThanPivot) {
+            result[index++] = num;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        // Example 1
+        int[] nums1 = {9, 12, 5, 10, 14, 3, 10};
+        int pivot1 = 10;
+        int[] result1 = pivotArray(nums1, pivot1);
+        for (int num : result1) {
+            System.out.print(num + " ");
+        }
+        System.out.println(); // Output: 9 5 3 10 10 12 14
+
+        // Example 2
+        int[] nums2 = {-3, 4, 3, 2};
+        int pivot2 = 2;
+        int[] result2 = pivotArray(nums2, pivot2);
+        for (int num : result2) {
+            System.out.print(num + " ");
+        }
+        System.out.println(); // Output: -3 2 4 3
+    }
+}
